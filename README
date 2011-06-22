@@ -1,0 +1,30 @@
+Dependancies: alsaaudio, numpy, crcmod
+
+Note: 'Binary data' is really a string of ASCII since this is how python likes to handle it.  Non-printable characters output as '\x##' when printed.  Typically needs to be printed by character to get output if it contains non-printable characters (i.e. "print [n for n in data]")
+
+TODO:
+-handle packets with errors better
+-add bit recovery to reciever so it would work with audio
+-add serial keying (PTT interface)
+-write CRC16 algorithm to remove dependancy
+-use gortzel's algorithm instead of FFT to improve efficiency and get rid of numpy dependancy
+
+#######################################################
+Files
+#######################################################
+
+AXFrame: Takes APRS data and makes a binary AX.25 packet
+
+AXParse: Takes a binary packet, checks for validity and returns APRS data
+
+AX_TX: Same as gen_202_file but outputs to sound card
+
+bell202_tx: Takes binary data and outputs it in Bell 202 to the default ALSA soundcard
+
+bellFileRX: Demodulates a file containing sound samples (signed, 16bit, little endian) of Bell 202
+
+bellToFile: Takes binary data and outputs Bell 202 to a file (sampled with sign, 16 bit, LE)
+
+gen_202_file: Takes sample APRS data, generates an APRS packet, modulates it to Bell 202 and outputs to a file
+
+RX202File: Takes a file generated from gen_202_file, demodulates it, validates the packet and parses out the APRS data
